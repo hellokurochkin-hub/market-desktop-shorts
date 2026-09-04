@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Яндекс Маркет — шортсы, перелистывание</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="stage">
+      <div class="artboard" id="artboard">
+        <img class="frozen" src="assets/page.png" alt="" />
+
+        <div class="view" id="view" aria-label="Видео шортса">
+          <div class="track" id="track">
+            <div class="slide is-phone">
+              <img src="assets/video-phone.png" alt="" />
+            </div>
+            <div class="slide">
+              <img src="assets/iphone-17-camera.png" alt="" />
+            </div>
+            <div class="slide">
+              <img src="assets/iphone-17-side.png" alt="" />
+            </div>
+            <div class="slide">
+              <img src="assets/iphone-17-hand.png" alt="" />
+            </div>
+          </div>
+        </div>
+
+        <div class="right-skeletons" id="skeletons" aria-hidden="true">
+          <article class="sk-slide">
+            <div class="sk-header">
+              <span class="sk-avatar"></span>
+              <div class="sk-meta">
+                <span class="sk-line w-56"></span>
+                <span class="sk-line w-40"></span>
+              </div>
+              <span class="sk-chip"></span>
+            </div>
+            <div class="sk-text">
+              <span class="sk-line w-92"></span>
+              <span class="sk-line w-88"></span>
+              <span class="sk-line w-76"></span>
+              <span class="sk-line w-64"></span>
+              <span class="sk-line w-24"></span>
+            </div>
+            <div class="sk-snippet">
+              <span class="sk-thumb"></span>
+              <div class="sk-offer">
+                <span class="sk-line w-90"></span>
+                <span class="sk-line w-72"></span>
+                <span class="sk-line w-40"></span>
+                <span class="sk-line w-56"></span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <button class="hotspot hotspot-up" id="prev" type="button" aria-label="Предыдущее видео"></button>
+        <button class="hotspot hotspot-down" id="next" type="button" aria-label="Следующее видео"></button>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
