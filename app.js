@@ -8,7 +8,7 @@
   const view = document.getElementById("view");
   const track = document.getElementById("track");
   const skeletons = document.getElementById("skeletons");
-  const pages = [document.getElementById("page-a"), document.getElementById("page-b")];
+  const pageB = document.getElementById("page-b");
 
   function withClones(root) {
     const originals = [...root.children];
@@ -25,6 +25,7 @@
   let startY = 0;
   let blinkTimer = 0;
   let swapTimer = 0;
+  let moveTimer = 0;
 
   function viewScale() {
     return view.getBoundingClientRect().height / 784 || 1;
@@ -37,7 +38,7 @@
   }
 
   function showProduct(index) {
-    pages.forEach((page, i) => page.classList.toggle("is-on", i === index));
+    pageB.classList.toggle("is-on", index === 1);
   }
 
   function setTrack(offset = 0, animate = false) {
@@ -79,23 +80,24 @@
   }
 
   function go(dir) {
-    if (busy) return;
+    if (busy) return false;
     busy = true;
     pos += dir;
     setTrack(0, true);
     blinkSkeleton();
     window.clearTimeout(swapTimer);
+    window.clearTimeout(moveTimer);
     swapTimer = window.setTimeout(() => {
       showProduct(productIndex());
     }, REDUCED ? 0 : SWAP_MS);
-    window.setTimeout(finishMove, REDUCED ? 0 : SLIDE_MS);
+    moveTimer = window.setTimeout(finishMove, REDUCED ? 0 : SLIDE_MS);
+    return true;
   }
 
   function onPointerDown(event) {
     if (event.button !== undefined && event.button !== 0) return;
-    if (event.target.closest("button")) return;
+    if (busy) return;
     dragging = true;
-    busy = true;
     view.classList.add("is-dragging");
     startY = event.clientY;
     dragY = 0;
@@ -114,20 +116,23 @@
     dragging = false;
     view.classList.remove("is-dragging");
     if (dragY <= -70) {
-      busy = false;
       go(1);
     } else if (dragY >= 70) {
-      busy = false;
       go(-1);
     } else {
       setTrack(0, true);
-      window.setTimeout(finishMove, REDUCED ? 0 : SLIDE_MS);
     }
     dragY = 0;
   }
 
-  document.getElementById("next").addEventListener("click", () => go(1));
-  document.getElementById("prev").addEventListener("click", () => go(-1));
+  document.getElementById("next").addEventListener("click", (event) => {
+    event.preventDefault();
+    go(1);
+  });
+  document.getElementById("prev").addEventListener("click", (event) => {
+    event.preventDefault();
+    go(-1);
+  });
 
   view.addEventListener("pointerdown", onPointerDown);
   view.addEventListener("pointermove", onPointerMove);
