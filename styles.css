@@ -111,6 +111,38 @@ body {
   user-select: none;
 }
 
+.progress {
+  position: absolute;
+  left: calc(100% * 24 / 475);
+  bottom: calc(100% * 24 / 784);
+  width: calc(100% * 427 / 475);
+  height: calc(100% * 6 / 784);
+  display: flex;
+  align-items: center;
+  gap: calc(100% * 8 / 427);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.progress-seg {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  overflow: hidden;
+}
+
+.progress-seg i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: #f5f3f1;
+  border-radius: 3px;
+}
+
 .hotspot {
   position: absolute;
   width: calc(100% * 56 / 1654);

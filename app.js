@@ -1,12 +1,14 @@
 (() => {
   const TOTAL = 2;
   const SLIDE_MS = 520;
+  const CLIP_MS = 6000;
   const START_INDEX = 0;
   const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const view = document.getElementById("view");
   const track = document.getElementById("track");
   const pageB = document.getElementById("page-b");
+  const fills = [...document.querySelectorAll(".progress-seg i")];
 
   function withClones(root) {
     const originals = [...root.children];
@@ -22,6 +24,8 @@
   let dragging = false;
   let startY = 0;
   let moveTimer = 0;
+  let raf = 0;
+  let clipStart = 0;
 
   function viewScale() {
     return view.getBoundingClientRect().height / 784 || 1;
@@ -40,6 +44,42 @@
   function setTrack(offset = 0, animate = false) {
     track.classList.toggle("is-animating", animate && !REDUCED);
     track.style.transform = `translate3d(0, calc(${-pos * 100}% + ${offset}px), 0)`;
+  }
+
+  function setProgress(value) {
+    const scaled = value * fills.length;
+    fills.forEach((fill, index) => {
+      fill.style.width = `${Math.min(1, Math.max(0, scaled - index)) * 100}%`;
+    });
+  }
+
+  function stopProgress() {
+    window.cancelAnimationFrame(raf);
+    raf = 0;
+  }
+
+  function restartProgress() {
+    stopProgress();
+    clipStart = performance.now();
+    setProgress(0);
+    if (REDUCED || document.hidden) return;
+    raf = window.requestAnimationFrame(tickProgress);
+  }
+
+  function tickProgress(now) {
+    if (busy || dragging || document.hidden) {
+      clipStart = now - Math.min(CLIP_MS, (now - clipStart));
+      raf = window.requestAnimationFrame(tickProgress);
+      return;
+    }
+    const value = Math.min(1, (now - clipStart) / CLIP_MS);
+    setProgress(value);
+    if (value >= 1) {
+      stopProgress();
+      go(1);
+      return;
+    }
+    raf = window.requestAnimationFrame(tickProgress);
   }
 
   function layoutSlides() {
@@ -62,11 +102,13 @@
     snapIfClone();
     showProduct(productIndex());
     busy = false;
+    restartProgress();
   }
 
   function go(dir) {
     if (busy) return false;
     busy = true;
+    stopProgress();
     pos += dir;
     setTrack(0, true);
     showProduct(productIndex());
@@ -142,7 +184,13 @@
     }
   });
 
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopProgress();
+    else if (!busy && !dragging) restartProgress();
+  });
+
   layoutSlides();
   setTrack(0, false);
   showProduct(START_INDEX);
+  restartProgress();
 })();
