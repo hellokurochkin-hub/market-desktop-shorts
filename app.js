@@ -1,12 +1,14 @@
 (() => {
-  const TOTAL = 4;
+  const TOTAL = 2;
   const SLIDE_MS = 520;
+  const SWAP_MS = 180;
   const START_INDEX = 0;
   const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const view = document.getElementById("view");
   const track = document.getElementById("track");
   const skeletons = document.getElementById("skeletons");
+  const pages = [document.getElementById("page-a"), document.getElementById("page-b")];
 
   function withClones(root) {
     const originals = [...root.children];
@@ -22,9 +24,20 @@
   let dragging = false;
   let startY = 0;
   let blinkTimer = 0;
+  let swapTimer = 0;
 
   function viewScale() {
     return view.getBoundingClientRect().height / 784 || 1;
+  }
+
+  function productIndex() {
+    if (pos === 0) return TOTAL - 1;
+    if (pos === TOTAL + 1) return 0;
+    return pos - 1;
+  }
+
+  function showProduct(index) {
+    pages.forEach((page, i) => page.classList.toggle("is-on", i === index));
   }
 
   function setTrack(offset = 0, animate = false) {
@@ -61,6 +74,7 @@
 
   function finishMove() {
     snapIfClone();
+    showProduct(productIndex());
     busy = false;
   }
 
@@ -70,6 +84,10 @@
     pos += dir;
     setTrack(0, true);
     blinkSkeleton();
+    window.clearTimeout(swapTimer);
+    swapTimer = window.setTimeout(() => {
+      showProduct(productIndex());
+    }, REDUCED ? 0 : SWAP_MS);
     window.setTimeout(finishMove, REDUCED ? 0 : SLIDE_MS);
   }
 
@@ -140,4 +158,5 @@
 
   layoutSlides();
   setTrack(0, false);
+  showProduct(START_INDEX);
 })();

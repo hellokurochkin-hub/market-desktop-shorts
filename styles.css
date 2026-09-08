@@ -44,6 +44,11 @@ body {
   display: block;
   pointer-events: none;
   user-select: none;
+  opacity: 0;
+}
+
+.frozen.is-on {
+  opacity: 1;
 }
 
 .view {
@@ -89,18 +94,6 @@ body {
   object-position: center;
   pointer-events: none;
   user-select: none;
-}
-
-.slide.is-mid img {
-  object-position: center 28%;
-}
-
-.slide.is-low img {
-  object-position: center 72%;
-}
-
-.slide.is-left img {
-  object-position: 22% center;
 }
 
 .right-skeletons {
