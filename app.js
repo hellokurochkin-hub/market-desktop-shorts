@@ -8,7 +8,7 @@
   const view = document.getElementById("view");
   const track = document.getElementById("track");
   const pageB = document.getElementById("page-b");
-  const fills = [...document.querySelectorAll(".progress-seg i")];
+  const fill = document.querySelector(".progress i");
 
   function withClones(root) {
     const originals = [...root.children];
@@ -47,10 +47,7 @@
   }
 
   function setProgress(value) {
-    const scaled = value * fills.length;
-    fills.forEach((fill, index) => {
-      fill.style.width = `${Math.min(1, Math.max(0, scaled - index)) * 100}%`;
-    });
+    fill.style.width = `${Math.min(1, Math.max(0, value)) * 100}%`;
   }
 
   function stopProgress() {
