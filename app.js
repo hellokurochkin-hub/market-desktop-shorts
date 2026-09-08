@@ -24,7 +24,7 @@
   let blinkTimer = 0;
 
   function viewScale() {
-    return view.getBoundingClientRect().height / 776 || 1;
+    return view.getBoundingClientRect().height / 784 || 1;
   }
 
   function setTrack(offset = 0, animate = false) {

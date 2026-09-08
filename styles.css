@@ -48,10 +48,10 @@ body {
 
 .view {
   position: absolute;
-  left: calc(100% * 358 / 1654);
-  top: calc(100% * 62 / 900);
+  left: calc(100% * 354 / 1654);
+  top: calc(100% * 58 / 900);
   width: calc(100% * 475 / 1654);
-  height: calc(100% * 776 / 900);
+  height: calc(100% * 784 / 900);
   border-radius: 20px;
   overflow: hidden;
   isolation: isolate;
@@ -91,28 +91,30 @@ body {
   user-select: none;
 }
 
-.slide.is-phone img {
-  inset: auto;
-  top: 0.05%;
-  left: -67.65%;
-  width: 290.43%;
-  height: 100%;
-  max-width: none;
-  object-fit: fill;
+.slide.is-mid img {
+  object-position: center 28%;
+}
+
+.slide.is-low img {
+  object-position: center 72%;
+}
+
+.slide.is-left img {
+  object-position: 22% center;
 }
 
 .right-skeletons {
   position: absolute;
-  left: calc(100% * 853 / 1654);
-  top: calc(100% * 62 / 900);
-  width: calc(100% * 443 / 1654);
-  height: calc(100% * 320 / 900);
+  left: calc(100% * 845 / 1654);
+  top: calc(100% * 58 / 900);
+  width: calc(100% * 455 / 1654);
+  height: calc(100% * 427 / 900);
   background: #fff;
   overflow: hidden;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  clip-path: polygon(0 0, calc(100% - 42px) 0, calc(100% - 42px) 24px, 100% 24px, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, calc(100% - 28px) 0, calc(100% - 28px) 28px, 100% 28px, 100% 100%, 0 100%);
 }
 
 .right-skeletons.is-switching {

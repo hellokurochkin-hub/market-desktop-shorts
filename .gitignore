@@ -1,7 +1,5 @@
 .DS_Store
 *.png
 !assets/page.png
-!assets/video-phone.png
-!assets/iphone-17-camera.png
-!assets/iphone-17-side.png
-!assets/iphone-17-hand.png
+!assets/view.png
+!assets/view-raw-1.png
