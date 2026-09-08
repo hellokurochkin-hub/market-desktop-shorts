@@ -1,13 +1,11 @@
 (() => {
   const TOTAL = 2;
   const SLIDE_MS = 520;
-  const SWAP_MS = 180;
   const START_INDEX = 0;
   const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const view = document.getElementById("view");
   const track = document.getElementById("track");
-  const skeletons = document.getElementById("skeletons");
   const pageB = document.getElementById("page-b");
 
   function withClones(root) {
@@ -23,8 +21,6 @@
   let dragY = 0;
   let dragging = false;
   let startY = 0;
-  let blinkTimer = 0;
-  let swapTimer = 0;
   let moveTimer = 0;
 
   function viewScale() {
@@ -44,17 +40,6 @@
   function setTrack(offset = 0, animate = false) {
     track.classList.toggle("is-animating", animate && !REDUCED);
     track.style.transform = `translate3d(0, calc(${-pos * 100}% + ${offset}px), 0)`;
-  }
-
-  function blinkSkeleton() {
-    window.clearTimeout(blinkTimer);
-    if (REDUCED) return;
-    skeletons.classList.remove("is-switching");
-    void skeletons.offsetWidth;
-    skeletons.classList.add("is-switching");
-    blinkTimer = window.setTimeout(() => {
-      skeletons.classList.remove("is-switching");
-    }, SLIDE_MS);
   }
 
   function layoutSlides() {
@@ -84,12 +69,8 @@
     busy = true;
     pos += dir;
     setTrack(0, true);
-    blinkSkeleton();
-    window.clearTimeout(swapTimer);
+    showProduct(productIndex());
     window.clearTimeout(moveTimer);
-    swapTimer = window.setTimeout(() => {
-      showProduct(productIndex());
-    }, REDUCED ? 0 : SWAP_MS);
     moveTimer = window.setTimeout(finishMove, REDUCED ? 0 : SLIDE_MS);
     return true;
   }
