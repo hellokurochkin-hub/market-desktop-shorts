@@ -1,6 +1,7 @@
 .DS_Store
 *.png
 !assets/page.png
+!assets/page-4x.png
 !assets/right-2.png
 !assets/view.png
 !assets/view-2.png

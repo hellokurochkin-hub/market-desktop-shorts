@@ -43,7 +43,7 @@
 
   function setTrack(offset = 0, animate = false) {
     track.classList.toggle("is-animating", animate && !REDUCED);
-    track.style.transform = `translateY(calc(${-pos * 100}% + ${offset}px))`;
+    track.style.transform = `translate3d(0, calc(${-pos * 100}% + ${offset}px), 0)`;
   }
 
   function blinkSkeleton() {
@@ -59,7 +59,7 @@
 
   function layoutSlides() {
     slides.forEach((slide, i) => {
-      slide.style.top = `${i * 100}%`;
+      slide.style.transform = `translate3d(0, ${i * 100}%, 0)`;
     });
   }
 
